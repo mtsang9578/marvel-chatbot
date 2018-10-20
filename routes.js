@@ -7,6 +7,7 @@ var Project = require('./models').Project;
 var strftime = require('strftime');
 var md5 = require('md5');
 const https = require('https');
+const request = require('request');
 
 // Example endpoint
 router.get('/create-test-project', function(req, res) {
@@ -30,9 +31,9 @@ router.get('/', function(req, res) {
   var privateKey = 'b69559945c9403fe0109082e377f0271c1d540e6';
   var ts = '1';
   var hash = md5(ts + privateKey + publicKey);
-  https.get('https://gateway.marvel.com/v1/public/comics?limit=1&ts=' + ts + '&apikey=' + publicKey + '&hash=' + hash, (response) => {
-    console.log(response);
-    res.send('hello');
+  request('https://gateway.marvel.com/v1/public/comics?ts=' + ts + '&apikey=' + publicKey + '&hash=' + hash, function (error, response, body) {
+    console.log(body["data"]);
+    res.render('index', {results: body});
   });
 
   // Project.find().then(projects => {
