@@ -1,0 +1,37 @@
+<h1>View Project</h1>
+
+<!-- Part 3: View a single project -->
+<div class="container ">
+    <div><h1> Title: {{project.title}}</h1></div>
+    <div><h1>Description: {{project.description}}</h1></div>
+    <div><h1>Goal: {{project.goal}}</h1></div>
+    <div><h1>Start: {{project.start}}</h1></div>
+    <div><h1>End: {{project.end}}</h1></div>
+     <div><h1>Contributions:</h1></div>
+     <ul>
+         {{#each project.contributions}}
+         <li><h3>Name: {{name}}, Amount: {{amount}}</h3></li>
+         {{/each}}
+     </ul>
+
+</div>
+<!-- YOUR CODE HERE -->
+
+<!-- Part 4: Contribute to a project -->
+
+<div class="container" style="margin:50px">
+    <div class=""> <h1> Contribute to this project</h1></div>
+    <form id="form" method="POST" action="">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" name="name" placeholder="" value= "">
+        <label for="amount">Amount</label>
+        <input type="number" class="form-control" name="amount" placeholder="" value= "">
+         <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+<script>
+    document.getElementById("form").setAttribute("action", window.location.href);
+
+</script>
+
+<!-- YOUR CODE HERE -->
