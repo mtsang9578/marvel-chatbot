@@ -5,6 +5,8 @@ var express = require('express');
 var router = express.Router();
 var Project = require('./models').Project;
 var strftime = require('strftime');
+var md5 = require('md5');
+const https = require('https');
 
 // Example endpoint
 router.get('/create-test-project', function(req, res) {
@@ -24,11 +26,22 @@ router.get('/create-test-project', function(req, res) {
 // Implement the GET / endpoint.
 router.get('/', function(req, res) {
   // YOUR CODE HERE
-  Project.find().then(projects => {
-      res.render('index', {projects: projects})
+  var publicKey = 'c15ef0d1a88a996980a054a9cc28a7ab';
+  var privateKey = 'b69559945c9403fe0109082e377f0271c1d540e6';
+  var ts = '1';
+  var hash = md5(ts + privateKey + publicKey);
+  https.get('https://gateway.marvel.com/v1/public/comics?limit=1&ts=' + ts + '&apikey=' + publicKey + '&hash=' + hash, (response) => {
+    console.log(response);
+    res.send('hello');
   });
 
+  // Project.find().then(projects => {
+  //     res.render('index', {projects: projects})
+  // });
+
 });
+
+router
 
 // Part 2: Create project
 // Implement the GET /new endpoint
