@@ -12,8 +12,10 @@
     "express": "~4.13.1",
     "express-handlebars": "^3.0.0",
     "express-validator": "^2.20.5",
+    "md5": "^2.2.1",
     "mongoose": "^5.0.3",
     "morgan": "~1.6.1",
+    "request": "^2.88.0",
     "strftime": "^0.10.0"
   },
   "devDependencies": {
