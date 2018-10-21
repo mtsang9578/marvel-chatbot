@@ -117,7 +117,7 @@ function getSeriesByName(series, callback)
 
 	request(requestStr, {json: true}, function(error, response, body)
 	{
-		var desc = body.data.results[0].description || "None";
+		var desc = body.data.results[0].description || "No Description";
 		callback(desc);
 	});
 }
