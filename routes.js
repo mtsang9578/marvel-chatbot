@@ -68,6 +68,7 @@ router.get('/trainEvent', function(req, res) {
   });
 });
 
+
 router.get('/getComics', function(req, res) {
   marvel.getComics(0,[], (str) => {
     console.log(str);
