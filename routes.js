@@ -10,6 +10,7 @@ const https = require('https');
 const request = require('request');
 
 const marvel = require('./marvel.js');
+const trainer = require('./trainer.js');
 
 // Example endpoint
 router.get('/create-test-project', function(req, res) {
@@ -59,6 +60,12 @@ router.get('/getCharacters', function(req, res) {
     res.send(str);
   });
 
+});
+
+router.get('/trainEvent', function(req, res) {
+  trainer.trainGetEvent(function(results) {
+    res.send(results);
+  });
 });
 
 router.get('/getComics', function(req, res) {
