@@ -12,6 +12,8 @@ const request = require('request');
 const marvel = require('./marvel.js');
 const trainer = require('./trainer.js');
 
+var trainingRoutes = require('./training-routes');
+
 // Example endpoint
 router.get('/create-test-project', function(req, res) {
   var project = new Project({
@@ -55,38 +57,6 @@ router.get('/submitQuery', function (req, res) {
   });
 });
 
-router.get('/getCharacters', function(req, res) {
-  marvel.getCharacters(0,[], (str) => {
-    res.send(str);
-  });
-
-});
-
-router.get('/trainEvent', function(req, res) {
-  trainer.trainGetEvent(function(results) {
-    res.send(results);
-  });
-});
-
-
-router.get('/getComics', function(req, res) {
-  marvel.getComics(0,[], (str) => {
-    console.log(str);
-    res.send(str);
-  });
-
-});
-
-router.get('/getComic',function(req, res) {
-  marvel.getComic(function(response){
-    res.send(response.data);
-  });
-
-});
-
-router.get('/trainer', function(req, res) {
-
-});
 
 
 // Part 2: Create project

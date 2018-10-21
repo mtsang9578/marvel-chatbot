@@ -46,6 +46,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // All of our routes are in routes.js
 var routes = require('./routes');
+var trainingRoutes = require('./training-routes');
+app.use('/training',trainingRoutes);
 app.use('/', routes);
 
 console.log('Express started. Listening on port', process.env.PORT || 3000);
