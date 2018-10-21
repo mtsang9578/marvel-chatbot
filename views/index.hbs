@@ -64,6 +64,8 @@
             <div class="row speech-row">
              <div class="speech-bubble rounded bot">${element}</div>
              </div>`);
+             $("#chatlog").scrollTop($("#chatlog")[0].scrollHeight);
+
           },
           error: function(xhr) {
             //Do Something to handle error
@@ -78,8 +80,9 @@
     console.log(results);
     if(type == "image") {
         var element =
-        ` <div class="image-response"> <img src=${results[0]}>
+        ` <div > <img class="image-response"src=${results}>
         </div>`
+        return element;
     }
 
     if (type == "character") {
@@ -102,6 +105,14 @@
         </div>`
         console.log(characterElement);
         return characterElement;
+    }
+
+    if (type == "friends") {
+        console.log("friend results" + results);
+         var element =
+        ` <div > ${results}>
+        </div>`
+        return element;
     }
 
 

@@ -87,6 +87,6 @@ html, body {
 }
 
 .image-response {
-	max-width: 25%;
+	width: 100%;
 }
 
