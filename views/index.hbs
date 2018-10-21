@@ -137,6 +137,20 @@
         return element;
     }
 
+    if (type == "series") {
+        console.log("series");
+         var element =
+        `
+        <div>
+        <image class="image-response" src=${results.thumbnail.path + '.' + results.thumbnail.extension}>
+            <div class="font-weight-bold"> ${results.title}
+            </div>
+            <div>${results.description}</div>
+        </div>
+        `
+        return element;
+    }
+
     if (type == "comicCover") {
         console.log("type was comicCover");
          var element =
