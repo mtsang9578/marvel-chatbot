@@ -58,7 +58,7 @@
 
           success: function(response) {
             //Do Something
-            console.log(response.results.description);
+            //console.log(response.results.description);
             var element = getElement(response.type, response.results);
              $('#chatlog').append(`
             <div class="row speech-row">
@@ -95,7 +95,8 @@
         }
 
         var characterElement =
-        ` <div>
+        `<image class="image-response" src= ${results.thumbnail.path + '.' + results.thumbnail.extension}
+        <div>
             <div class="font-weight-bold"><bold>${results.name}</bold></div>
            <div class="bio"> ${results.description}<div>
         </div>
@@ -125,12 +126,34 @@
 
     if (type == "event") {
          var element =
-
         `
         <div>
-            <div class="font-weight-bold"> ${results.title}> ${results.title}>
+        <image class="image-response" src=${results.thumbnail.path + '.' + results.thumbnail.extension}>
+            <div class="font-weight-bold"> ${results.title}
             </div>
-            <div>${results.details}</div>
+            <div>${results.description}</div>
+        </div>
+        `
+        return element;
+    }
+
+    if (type == "comicCover") {
+        console.log("type was comicCover");
+         var element =
+        `
+        <div>
+        <image class="image-response" src=${results.thumbnail.path + '.' + results.thumbnail.extension}>
+        </div>
+        `
+        return element;
+    }
+
+    if (type == "comicCover") {
+        console.log("type was comicCover");
+         var element =
+        `
+        <div>
+        <image class="image-response" src=${results.thumbnail.path + '.' + results.thumbnail.extension}>
         </div>
         `
         return element;

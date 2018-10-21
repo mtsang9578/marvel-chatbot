@@ -67,6 +67,20 @@ function getBio(character, callback)
 	});
 }
 
+function getComicCover(comic, callback)
+{
+	var requestStr = 'https://gateway.marvel.com/v1/public/characters?title=' + comic +
+					'&ts=' + ts +
+					'&apikey=' + publicKey +
+					'&hash=' + hash;
+
+	request(requestStr, {json:true}, function (error, response, body) {
+		console.log("Looking up " + comic);
+		console.log(body.data.results[0]);
+		callback(body.data.results[0]);
+	});
+}
+
 function getCharacterByName(character, callback) {
 	var requestStr = 'https://gateway.marvel.com/v1/public/characters?name=' + character +
 					'&ts=' + ts +
@@ -188,8 +202,11 @@ function getAssociatedCharacters(character, callback)
 }
 
 
+
+
+
 exports.getBio = getBio;
-exports.getComic = getComic;
+exports.getComicCover = getComicCover;
 exports.getAssociatedCharacters = getAssociatedCharacters;
 exports.getEventByName = getEventByName;
 exports.getSeriesByName = getSeriesByName;

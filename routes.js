@@ -36,11 +36,16 @@ router.get('/submitQuery', function (req, res) {
 		+ query, {json:true}, function(error, response, body)
 	{
 
+    var topIntent = body.topScoringIntent;
+      var entity;
+      console.log("detected entity " + body.entities);
+
 		marvel.loadCharactersDictionary().then(function(dictionary)
 
 		{
 			var topIntent = body.topScoringIntent;
-      		var entity;
+      var entity;
+
 
 			if (body.entities.length == 0)
 			{
@@ -116,7 +121,6 @@ router.get('/submitQuery', function (req, res) {
 
       else if (topIntent.intent == 'GetSeries') {
         marvel.getSeriesByName(entity, function(result) {
-
           console.log("got series");
           console.log(result.urls[0].url);
           res.send({type:"links", results:result.urls[0].url});
@@ -127,8 +131,22 @@ router.get('/submitQuery', function (req, res) {
       else if (topIntent.intent == 'GetEvent') {
         marvel.getEventByName(entity, function(result) {
           console.log("getting event");
-          console.log(result);
           res.send({type:"event", results:result});
+        });
+      }
+
+
+      else if (topIntent.intent == 'GetComicCover') {
+        console.log("getting comic cover");
+        marvel.getComicCover(entity, function(result) {
+          res.send({type:"comicCover", results:result});
+        });
+      }
+
+      else if (topIntent.intent == 'GetComicsByName') {
+        marvel.getEventByName(entity, function(result) {
+          console.log("getting comic by Name");
+          res.send({type:"comic", results:result});
         });
       }
 
