@@ -39,9 +39,9 @@ router.get('/submitQuery', function (req, res) {
 	request('https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/8dbc2125-1d25-4183-92f6-0fda50b5c440?subscription-key=a8b41509fd9b4a7c9326106cf91203e3&timezoneOffset=-360&q='
 		+ query, {json:true}, function(error, response, body)
 	{
-    topIntent = body.topScoringIntent;
-    console.log(topIntent);
-		marvel.loadCharactersDictionary(function(dictionary)
+
+		marvel.loadCharactersDictionary().then(function(dictionary)
+
 		{
 			topIntent = body.topScoringIntent;
 
@@ -74,7 +74,12 @@ router.get('/submitQuery', function (req, res) {
 				}
 			}
 
+
+			console.log(topIntent);
+			console.log(entity);
+
 			if (topIntent.intent == 'GetBio')
+
 			{
 				console.log("passing the entity: " + entity);
 
