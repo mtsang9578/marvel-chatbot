@@ -102,19 +102,6 @@ router.get('/submitQuery', function (req, res) {
 					res.send({type:"character", results:names});
 				});
 			}
-			else if(topIntent.intent == 'GetFriends') {				
-				console.log("get friends");
-				marvel.getAssociatedCharacters(entity, function(result) {
-					var names = "";
-					for (var i = 0; i < result.length; i++) 
-					{
-						names += results[i] + ', ';
-					}
-					console.log("got getAsswociatedCharacters");
-					console.log(result);
-					res.send({type:"character", results:names});
-				});
-			}
 		});
 	});
 });
