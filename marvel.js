@@ -72,6 +72,7 @@ function getCharacterByName(character, callback) {
 					'&hash=' + hash;
 
 	request(requestStr, {json:true}, function (error, response, body) {
+		console.log(body.data);
 		callback(body.data.results[0]);
 	});
 }
@@ -84,6 +85,9 @@ function getEventByName(event, callback){
 function getSeriesByName(series, callback){
 
 }
+
+
+
 
 function getComic(callback) {
 	var requestStr = 'https://gateway.marvel.com/v1/public/comics?offset=' + 0 +

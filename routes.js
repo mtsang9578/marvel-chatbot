@@ -44,36 +44,38 @@ router.get("/test", function(req, res)
 });
 
 router.get('/submitQuery', function (req, res) {
-  //var query = req.body.query;
-  var query = "who is Spider-Man"
-  query = query.replace(' ', '+');
+  var url = require('url');
+  var url_parts = url.parse(req.url, true);
+  var query = url_parts.query;
+  console.log(query);
+
+  //TODO: SPELL CHECK
+
+
+
+  //var query = "who is Spider-Man"
+  query = query.text.replace(' ', '+');
   request('https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/8dbc2125-1d25-4183-92f6-0fda50b5c440?subscription-key=a8b41509fd9b4a7c9326106cf91203e3&timezoneOffset=-360&q='
     + query, {json:true}, function(error, response, body) {
       var topIntent = body.topScoringIntent;
       var entity = body.entities[0];
-
       console.log(entity);
-
 
       if (topIntent.intent == 'GetBio') {
         var entity = '';
         for (var i = 0; i < body.entities.length; i++) {
           if(body.entities[i].type == "CharacterList") {
-            entity = body.entities[i].entity;
+            entity = body.entities[i].resolution.values[0];
           }
         }
+        console.log("passing the entity: " + entity);
 
         marvel.getCharacterByName(entity, function(result) {
-
-
-        })
-
-
-
-
+          console.log("got charactersByName");
+          console.log(result);
+          res.send({type:"character", results:result});
+        });
       }
-      res.send();
-
 
 
   });
