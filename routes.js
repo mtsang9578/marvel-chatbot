@@ -122,7 +122,7 @@ router.get('/submitQuery', function (req, res) {
 					res.send({type:"friends", results:names});
 				});
 			}
-<<<<<<< HEAD
+
 
 
       else if (topIntent.intent == 'GetMoreInfo') {
@@ -158,7 +158,6 @@ router.get('/submitQuery', function (req, res) {
           res.send({type:"comic", results:result});
         });
       }
-
 
 
 	    else if (topIntent.intent == 'GetSeries') {

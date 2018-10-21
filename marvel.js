@@ -83,6 +83,9 @@ function getBio(character, callback)
 	});
 }
 
+function getRandomCharacters() {
+
+}
 function getComicCover(comic, callback)
 {
 	var requestStr = 'https://gateway.marvel.com/v1/public/characters?title=' + comic +
@@ -133,7 +136,7 @@ function getSeriesByName(series, callback)
 
 	request(requestStr, {json: true}, function(error, response, body)
 	{
-		var desc = body.data.results[0].description || "No Description";
+		var desc = body.data.results[0] || "None";
 		callback(desc);
 	});
 }
