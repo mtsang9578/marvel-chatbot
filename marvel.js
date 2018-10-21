@@ -89,13 +89,17 @@ function getEventByName(event, callback)
 
 	request(requestStr, {json: true}, function(error, response, body)
 	{
-		var 
+		var desc = body.data.results[0].description;
+		callback(desc);
 	});
 }
 
 function getSeriesByName(series, callback)
 {
-
+	var requestStr = 'https://gateway.marvel.com/v1/public/events?name=' + event +
+					'&ts=' + ts +
+					'&apikey=' + publicKey +
+					'&hash=' + hash;
 }
 
 function getCharacterAppearance(character, callback)
