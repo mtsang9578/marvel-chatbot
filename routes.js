@@ -81,7 +81,7 @@ router.get('/submitQuery', function (req, res) {
 					res.send({type:"character", results:result});
 				});
 			}
-			else if (topIntent.intent == 'GetAppearance') 
+			else if (topIntent.intent == 'GetAppearance')
 			{
 				marvel.getCharacterAppearance(entity, function(result)
 				{
@@ -90,7 +90,7 @@ router.get('/submitQuery', function (req, res) {
 					res.send({type:"image", results:result});
 				});
 			}
-			else if (topIntent.intent == 'GetFriends') 
+			else if (topIntent.intent == 'GetFriends')
 			{
 				marvel.getAssociatedCharacters(entity, function(result) {
 					var names = "";
@@ -103,6 +103,27 @@ router.get('/submitQuery', function (req, res) {
 					res.send({type:"friends", results:names});
 				});
 			}
+
+
+      else if (topIntent.intent == 'GetMoreInfo') {
+        marvel.getCharacterByName(entity, function(result) {
+
+          console.log("got more info");
+          console.log(result.urls[0].url);
+          res.send({type:"links", results:result.urls[0].url});
+        });
+      }
+
+
+      else if (topIntent.intent == 'GetSeries') {
+        marvel.getSeriesByName(entity, function(result) {
+
+          console.log("got series");
+          console.log(result.urls[0].url);
+          res.send({type:"links", results:result.urls[0].url});
+        });
+      }
+
 		});
 	});
 });
