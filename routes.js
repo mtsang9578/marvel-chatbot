@@ -123,8 +123,6 @@ router.get('/submitQuery', function (req, res) {
 				});
 			}
 
-
-
       else if (topIntent.intent == 'GetMoreInfo') {
         marvel.getCharacterByName(entity, function(result) {
           console.log("got more info");
@@ -132,9 +130,6 @@ router.get('/submitQuery', function (req, res) {
           res.send({type:"links", results:result.urls[0].url});
         });
       }
-
-
-
 
 
       else if (topIntent.intent == 'GetEvent') {
@@ -165,6 +160,12 @@ router.get('/submitQuery', function (req, res) {
 	          	res.send({type:"series", results:result});
 	        });
 	    }
+
+      else if (topIntent.intent == 'GetAllCharacters') {
+          marvel.getSeriesByName(entity, function(result) {
+              res.send({type:"series", results:result});
+          });
+      }
 
 		});
 	});

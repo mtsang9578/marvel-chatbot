@@ -94,6 +94,23 @@
             comicNames += comics[i].name + ', '
         }
 
+        var events = results.events.items;
+        var eventNames = "";
+        console.log(events);
+        for (var i = 0; i < events.length; i++) {
+            console.log(events[i]);
+            eventNames += events[i].name + ', '
+        }
+
+        var series = results.series.items;
+        var seriesNames = "";
+        for (var i = 0; i < series.length; i++) {
+            console.log(series[i]);
+            seriesNames += series[i].name + ', '
+        }
+
+
+
         var characterElement =
         `<image class="image-response" src= ${results.thumbnail.path + '.' + results.thumbnail.extension}
         <div>
@@ -103,7 +120,17 @@
         <div class="mt-3">
             <div class="font-weight-bold"><bold>Comic Appearances</bold></div>
             <div>${comicNames}</div>
-        </div>`
+        </div>
+         <div class="mt-3">
+            <div class="font-weight-bold"><bold>Event Appearances</bold></div>
+            <div>${eventNames}</div>
+        </div>
+        <div class="mt-3">
+            <div class="font-weight-bold"><bold>Series Appearances</bold></div>
+            <div>${seriesNames}</div>
+        </div>
+
+        `
         console.log(characterElement);
         return characterElement;
     }
@@ -145,7 +172,7 @@
         <image class="image-response" src=${results.thumbnail.path + '.' + results.thumbnail.extension}>
             <div class="font-weight-bold"> ${results.title}
             </div>
-            <div>${results.description}</div>
+            <div>${results.description || "No description available"}</div>
         </div>
         `
         return element;
