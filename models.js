@@ -30,7 +30,7 @@ var Event = mongoose.model('Event', {
     type: String,
     required: true
   },
-  characterIds: [String]
+  characters: [String]
 });
 
 module.exports = {
