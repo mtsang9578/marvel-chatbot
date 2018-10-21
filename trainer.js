@@ -22,7 +22,7 @@ function getEvents(numEvents, callback)
 
 function trainGetEvent(callback) {
     jsonResults = []
-    getEvents(10, function(results) {
+    getEvents(30, function(results) {
         for (var i = 0; i < results.length; i++){
             var start = "what happens in ".length;
             jsonResults.push({
@@ -33,7 +33,7 @@ function trainGetEvent(callback) {
                     {
                         "entity": "Event",
                         "startPos": start,
-                        "endPos": start + results[i].title.length - 1
+                        "endPos": start + results[i].title.length
                     }
                 ]
 
