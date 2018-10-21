@@ -37,46 +37,60 @@ router.get('/submitQuery', function (req, res) {
 	{
 
 		marvel.loadCharactersDictionary().then(function(dictionary)
-
 		{
 			var topIntent = body.topScoringIntent;
       		var entity;
 
 			if (body.entities.length == 0)
 			{
+				console.log("No entity detected");
 				entity == null;
 			}
 			else if (body.entities.length == 1)
 			{
+				entity = body.entities[0];
+			}
+			else // Only case should be Character and CharacterList - return the other
+			{
 				if (body.entities[0].type == "Character")
 				{
-					entity = dictionary.getSuggestions(body.entities[0].entity, 1, 2)[0];
+					entity = body.entities[1];
 				}
 				else
 				{
-					entity = body.entities[0].resolution.values[0];
+					entity = body.entities[0];
 				}
 			}
-			else
+
+			if (entity != null)
 			{
-				if (body.entities[0].type == "CharacterList")
+				if (entity.type == "Character")
 				{
-					entity = body.entities[0].resolution.values[0];
+					entity = dictionary.getSuggestions(entity.entity, 1, 2)[0];
+				}
+				else if (entity.type == "SeriesList")
+				{
+					entity = entity.resolution.values[0].split(" (")[0];
 				}
 				else
 				{
-					entity = body.entities[1].resolution.values[0];
+					entity = entity.resolution.values[0];
 				}
 			}
 
 			console.log(topIntent);
 			console.log(entity);
+			console.log(body.entities);
 
-			if (topIntent.intent == 'GetBio')
+			if (entity == null)
+			{
+				res.send({type: "unknown", results: "I'm not sure what you're asking. Please try again!"});
+			}
+			else if (topIntent.intent == 'GetBio')
 			{
 				marvel.getCharacterByName(entity, function(result)
 				{
-					console.log("got charactersByName");
+					console.log("got charadtersByName");
 					console.log(result);
 					res.send({type:"character", results:result});
 				});
@@ -93,47 +107,35 @@ router.get('/submitQuery', function (req, res) {
 			else if (topIntent.intent == 'GetFriends')
 			{
 				marvel.getAssociatedCharacters(entity, function(result) {
-					var names = "";
-					for (var i = 0; i < result.length; i++)
-					{
-						names += result[i] + ', ';
-					}
+					var names = result.slice(1, Math.min(result.length, 5));
+					names = entity + "'s friends are " + 
+							names.slice(0, names.length - 1).join(", ") + 
+							", and " + names[names.length - 1];
+
 					console.log("got getAssociatedCharacters");
 					console.log(result);
 					res.send({type:"friends", results:names});
 				});
 			}
-
-
-      else if (topIntent.intent == 'GetMoreInfo') {
-        marvel.getCharacterByName(entity, function(result) {
-          console.log("got more info");
-          console.log(result.urls[0].url);
-          res.send({type:"links", results:result.urls[0].url});
-        });
-      }
-
-
-      else if (topIntent.intent == 'GetSeries') {
-        marvel.getSeriesByName(entity, function(result) {
-
-          console.log("got series");
-          console.log(result.urls[0].url);
-          res.send({type:"links", results:result.urls[0].url});
-        });
-      }
-
-
-      else if (topIntent.intent == 'GetEvent') {
-        marvel.getEventByName(entity, function(result) {
-          console.log("getting event");
-          console.log(result);
-          res.send({type:"event", results:result});
-        });
-      }
-
-
-
+		    else if (topIntent.intent == 'GetMoreInfo') {
+		        marvel.getCharacterByName(entity, function(result) {
+					console.log("got more info");
+					console.log(result.urls[0].url);
+		          res.send({type:"links", results:result.urls[0].url});
+		        });
+		    }
+		    else if (topIntent.intent == 'GetSeries') {
+		        marvel.getSeriesByName(entity, function(result) {
+		          	res.send({type:"series", results:result});
+		        });
+		    }
+		    else if (topIntent.intent == 'GetEvent') {
+		        marvel.getEventByName(entity, function(result) {
+					console.log("getting event");
+					console.log(result);
+		          res.send({type:"event", results:result});
+		        });
+		    }
 		});
 	});
 });
