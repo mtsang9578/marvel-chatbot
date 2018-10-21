@@ -112,41 +112,27 @@ router.get('/submitQuery', function (req, res) {
 					res.send({type:"character", results:names});
 				});
 			}
+
+      else if (topIntent.intent == 'GetMoreInfo') {
+        marvel.getCharacterByName(entity, function(result) {
+
+          console.log("got more info");
+          console.log(result.urls[0].url);
+          res.send({type:"links", results:result.urls[0].url});
+        });
+      }
+
+
+      else if (topIntent.intent == 'GetSeries') {
+        marvel.getSeriesByName(entity, function(result) {
+
+          console.log("got series");
+          console.log(result.urls[0].url);
+          res.send({type:"links", results:result.urls[0].url});
+        });
+      }
+
 		});
-
-    if (topIntent.intent == 'GetBio')
-      {
-        console.log("passing the entity: " + entity);
-
-        marvel.getCharacterByName(entity, function(result)
-        {
-          console.log("got charactersByName");
-          console.log(result);
-          res.send({type:"character", results:result});
-        });
-      }
-      else if (topIntent.intent == 'GetAppearance') {
-        console.log("Get Appearance");
-
-        marvel.getCharacterAppearance(entity, function(result)
-        {
-          console.log("got character apperances");
-          console.log(result);
-          res.send({type:"image", results:result});
-        });
-      }
-      else if (topIntent.intent == 'GetFriends') {
-        marvel.getAssociatedCharacters(entity, function(result) {
-          var names = "";
-          for (var i = 0; i < result.length; i++)
-          {
-            names += results[i] + ', ';
-          }
-          console.log("got getAssociatedCharacters");
-          console.log(result);
-          res.send({type:"character", results:names});
-        });
-      }
 	});
 });
 
