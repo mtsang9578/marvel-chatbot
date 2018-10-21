@@ -112,6 +112,78 @@ function trainGetEvent(callback) {
     });
 }
 
+function trainFriends(callback) {
+    jsonResults = []
+    phrases = [
+        {
+            "front": "who are ",
+            "back": "'s friends?"
+        },
+        {
+            "front": "who are ",
+            "back": "'s friends"
+        },
+        {
+            "front": "",
+            "back": "'s friends"
+        },
+        {
+            "front": "",
+            "back": " friend"
+        },
+        {
+            "front": "",
+            "back": " allies"
+        },
+        {
+            "front": "",
+            "back": " associates"
+        },
+        {
+            "front": "friends of",
+            "back": ""
+        }
+    ]
+
+    getCharacters(50, function(results) {
+        for (var i = 0; i < results.length; i++){
+            for (var j = 0; j < phrases.length; j++) {
+                var start = phrases[j].front.length;
+                // console.log(results[i].title)
+                jsonResults.push({
+                    "text": phrases[j].front + results[i].name + phrases[j].back,
+                    "intent": "GetFriends",
+                    "entities":
+                    [
+                        {
+                            "entity": "CharacterList",
+                            "startPos": start,
+                            "endPos": start + results[i].name.length
+                        }
+                    ]
+
+                });
+            }
+        }
+         callback(jsonResults);
+    });
+}
+
+//todo: delete this duplicate method
+function getCharacters(numEvents, callback)
+{
+    var requestStr = 'https://gateway.marvel.com/v1/public/characters?'+
+                    '&limit=' + numEvents +
+                    '&ts=' + ts +
+                    '&apikey=' + publicKey +
+                    '&hash=' + hash;
+
+    request(requestStr, {json:true}, function (error, response, body) {
+
+        callback(body.data.results);
+    });
+}
+
 function getAllCharacters(offset, cumulativeNames, callback)
 {
     var promise = new Promise((resolve, reject) =>
@@ -181,7 +253,7 @@ function getAllComics(offset, cumulativeComics, callback)
     });
 }
 
-
+exports.trainFriends = trainFriends;
 exports.trainGetEvent = trainGetEvent;
 exports.getAllSeries = getAllSeries;
 exports.getAllEvents = getAllEvents;

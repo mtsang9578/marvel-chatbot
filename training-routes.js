@@ -38,6 +38,11 @@ router.get('/trainEvent', function(req, res) {
   });
 });
 
+router.get('/trainFriends', function(req, res) {
+  trainer.trainFriends(function(results) {
+    res.send(results);
+  });
+});
 
 router.get('/getComic',function(req, res) {
   marvel.getComic(function(response){
