@@ -48,17 +48,57 @@
         $(".message-box").val('');
         $("#chatlog").scrollTop($("#chatlog")[0].scrollHeight);
 
-        $.get('/testEndpoint', function(response) {
-            console.log(response);
-            var text = response.username;
-             $('#chatlog').append(`
+        $.get('/submitQuery', function(response) {
+            console.log(response.results.description);
+            var element = getElement(response.type, response.results);
+
+          $('#chatlog').append(`
             <div class="row speech-row">
-             <div class="speech-bubble rounded bot">${text}</div>
+             <div class="speech-bubble rounded bot">${element}</div>
         </div>`);
-             $("#chatlog").scrollTop($("#chatlog")[0].scrollHeight);
+        //      $("#chatlog").scrollTop($("#chatlog")[0].scrollHeight);
         });
 
   }
+
+  function getElement(type, results) {
+    console.log("get element");
+    console.log("type ", type);
+
+    if (type == "character") {
+
+        var comics = results.comics.items;
+        var comicNames = "";
+        for (var i = 0; i < comics.length; i++) {
+            console.log(comics[i]);
+            comicNames += comics[i].name + ', '
+        }
+
+        var characterElement =
+        ` <div>
+            <div class="font-weight-bold"><bold>${results.name}</bold></div>
+           <div class="bio"> ${results.description}<div>
+        </div>
+        <div class="mt-3">
+            <div class="font-weight-bold"><bold>Comic Appearances</bold></div>
+            <div>${comicNames}</div>
+        </div>`
+        console.log(characterElement);
+        return characterElement;
+    }
+
+
+    if (type == "comic") {
+
+    }
+
+  }
+
+  function getCharacterBio(response){
+    return response.description;
+  }
+
+
 
 
     $('.message-box').keypress(function(event) {

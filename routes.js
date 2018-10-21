@@ -50,23 +50,17 @@ router.get('/submitQuery', function (req, res) {
         var entity = '';
         for (var i = 0; i < body.entities.length; i++) {
           if(body.entities[i].type == "CharacterList") {
-            entity = body.entities[i].entity;
+            entity = body.entities[i].resolution.values[0];
           }
         }
+        console.log("passing the entity: " + entity);
 
         marvel.getCharacterByName(entity, function(result) {
-
-
-        })
-
-
-
-
+          console.log("got charactersByName");
+          console.log(result);
+          res.send({type:"character", results:result});
+        });
       }
-      res.send();
-
-
-
   });
 });
 
