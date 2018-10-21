@@ -20,10 +20,8 @@ router.get('/', function(req, res) {
 
 router.get("/test", function(req, res)
 {
-	marvel.loadEventsDictionary().then(function(dictionary)
-	{
-		var suggest = dictionary.getSuggestions("spider - man", 5, 5);
-		res.send(suggest);
+	marvel.getAssociatedCharacters("Thor", function(result) {
+		res.send(result);
 	});
 });
 
@@ -98,11 +96,11 @@ router.get('/submitQuery', function (req, res) {
 					var names = "";
 					for (var i = 0; i < result.length; i++) 
 					{
-						names += results[i] + ', ';
+						names += result[i] + ', ';
 					}
 					console.log("got getAssociatedCharacters");
 					console.log(result);
-					res.send({type:"character", results:names});
+					res.send({type:"friends", results:names});
 				});
 			}
 		});
