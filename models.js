@@ -3,31 +3,37 @@
 // Project model
 var mongoose = require('mongoose');
 
-var Project = mongoose.model('Project', {
+var Character = mongoose.model('Character', {
+  name: {
+    type: String,
+    required: true
+  },
+   id: {
+    type: String,
+    required: true
+  },
+   picture: {
+    type: String
+  },
+  sentiment: {
+    type: Number
+  }
+});
+
+
+var Event = mongoose.model('Event', {
   title: {
     type: String,
     required: true
   },
-   goal: {
-    type: Number,
-    required: true
-  },
-   description: {
+   id: {
     type: String,
     required: true
   },
-   start: {
-    type: Date,
-    required: true
-  },
-   end: {
-    type: Date,
-    required: true
-  },
-  contributions: [{name: String, amount:Number}]
-  // YOUR CODE HERE
+  characters: [String]
 });
 
 module.exports = {
-  Project: Project
+  Event: Event,
+  Character: Character
 }
