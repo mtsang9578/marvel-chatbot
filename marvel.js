@@ -55,6 +55,22 @@ async function loadEventsDictionary()
 	return result;
 }
 
+function getRandomCharacters(callback)
+{
+	Character.find({}, "name", function(err, characters)
+	{
+		var words = characters.map((char) => char.name);
+		var selected = [];
+
+		for (var i = 0; i < 10; i++)
+		{
+			selected.push(words[Math.floor(Math.random() * words.length)]);
+		}
+
+		callback(selected.slice(0, 9).join(", ") + " or " + selected[9]);
+	});
+}
+
 function getBio(character, callback)
 {
 	var requestStr = 'https://gateway.marvel.com/v1/public/characters?name=' + character +
@@ -67,9 +83,6 @@ function getBio(character, callback)
 	});
 }
 
-function getRandomCharacters() {
-
-}
 function getComicCover(comic, callback)
 {
 	var requestStr = 'https://gateway.marvel.com/v1/public/characters?title=' + comic +
@@ -215,6 +228,7 @@ exports.getEventByName = getEventByName;
 exports.getSeriesByName = getSeriesByName;
 exports.getCharacterByName = getCharacterByName;
 exports.getCharacterAppearance = getCharacterAppearance;
+exports.getRandomCharacters = getRandomCharacters;
 
 exports.loadCharactersDictionary = loadCharactersDictionary;
 exports.loadEventsDictionary = loadEventsDictionary;

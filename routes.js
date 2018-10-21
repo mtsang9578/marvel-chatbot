@@ -20,7 +20,7 @@ router.get('/', function(req, res) {
 
 router.get("/test", function(req, res)
 {
-	marvel.getAssociatedCharacters("Thor", function(result) {
+	marvel.getRandomCharacters(function(result) {
 		res.send(result);
 	});
 });
