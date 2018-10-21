@@ -34,6 +34,13 @@ router.get('/', function(req, res) {
   res.render("index");
 });
 
+router.get("/test", function(req, res)
+{
+  marvel.test((data) => {
+    res.send(data);
+  });
+});
+
 router.get('/submitQuery', function (req, res) {
   //var query = req.body.query;
   var query = "who is Spider-Man"
