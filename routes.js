@@ -32,18 +32,19 @@ router.get('/create-test-project', function(req, res) {
 // Implement the GET / endpoint.
 router.get('/', function(req, res) {
   // YOUR CODE HERE
-  var publicKey = 'c15ef0d1a88a996980a054a9cc28a7ab';
+  /*var publicKey = 'c15ef0d1a88a996980a054a9cc28a7ab';
   var privateKey = 'b69559945c9403fe0109082e377f0271c1d540e6';
   var ts = '1';
   var hash = md5(ts + privateKey + publicKey);
   request('https://gateway.marvel.com/v1/public/comics?ts=' + ts + '&apikey=' + publicKey + '&hash=' + hash, {json:true}, function (error, response, body) {
     console.log(body.data);
     res.render('index', {results: body.data});
-  });
+  });*/
 
   // Project.find().then(projects => {
   //     res.render('index', {projects: projects})
   // });
+  res.render("index");
 });
 
 router.get('/submitQuery', function (req, res) {

@@ -1,5 +1,32 @@
-body {
-  padding: 10px;
+@import url('https://fonts.googleapis.com/css?family=Marvel');
+
+html, body {
+	background-color: #ea2328 !important;
+	width: 100%;
+	height: 100%;
+	font-family: "Marvel" !important;
+	font-size: 16px !important;
 }
 
+.banner {
+	height: 80%;
+}
+
+.wrapper {
+	text-align: center;
+	height: 100%;
+}
+
+.btn-marvel {
+	display: inline-block;
+	height: 10%;
+	width: 50%;
+	margin-top: 1%;
+
+	font-size: 3rem;
+	border: 3px solid #222222;
+	border-radius: 5px;
+	background-color: #333333;
+	color: #eeeeee;
+}
 
