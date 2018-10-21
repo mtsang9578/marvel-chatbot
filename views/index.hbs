@@ -1,9 +1,85 @@
 <div class="wrapper">
-	<img class="banner" src="img/Marvel-logo.png" />
+	<img class="w-100" src="img/Marvel-logo.png" />
 	<button class="btn-marvel">Enter</button>
 	<input type="text" class="txt-marvel"/>
+
 	<!--img src="img/spiderman.png" /-->
 </div>
+
+<div class="container chat-log" id="chatlog">
+    <div class="row speech-row" >
+         <div class=" speech-bubble rounded lead bot">hi</div>
+    </div>
+    <div class="row speech-row">
+         <div class="speech-bubble rounded self">jfkdljfalk;s</div>
+    </div>
+
+</div>
+<div class="container">
+    <div class="m-5">
+        <form>
+            <div class="vertical-aligner">
+                <input type="text" id="textbox" class="message-box" name="message-box">
+                <a class="btn send"  id="send" role="button">Submit</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $('.send').on('click', function () {
+        send();
+    });
+
+  function send() {
+    var text = $('#textbox').val();
+        console.log(textbox);
+        //let text = $('message-box').val();
+        console.log("i was clicked " + text);
+        if (text.length> 0) {
+             $('#chatlog').append(`
+            <div class="row speech-row">
+             <div class="speech-bubble rounded self">${text}</div>
+        </div>`);
+        }
+
+
+        $(".message-box").val('');
+        $("#chatlog").scrollTop($("#chatlog")[0].scrollHeight);
+
+        $.get('/testEndpoint', function(response) {
+            console.log(response);
+            var text = response.username;
+             $('#chatlog').append(`
+            <div class="row speech-row">
+             <div class="speech-bubble rounded bot">${text}</div>
+        </div>`);
+             $("#chatlog").scrollTop($("#chatlog")[0].scrollHeight);
+        });
+
+  }
+
+
+    $('.message-box').keypress(function(event) {
+
+        // If the enter key is pressed
+        if(event.which === 13) {
+
+            // Ignore the default function of the enter key(Dont go to a new line)
+            event.preventDefault();
+
+            ButtonClicked = false;
+
+            // Call the method for sending a message, pass in the text from the user
+            send();
+
+        }
+    });
+
+
+</script>
+
 <!--h1>Start a conversation with the chatbot</h1>
 <div class="container"> hello here's all the stuff</div>
 <div class="container">

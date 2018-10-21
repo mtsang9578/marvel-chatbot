@@ -4,7 +4,7 @@ html, body {
 	background-color: #ea2328 !important;
 	width: 100%;
 	height: 100%;
-	font-family: "Marvel" !important;
+	font-family: "Marvel";
 	font-size: 16px !important;
 }
 
@@ -30,14 +30,59 @@ html, body {
 	color: #eeeeee;
 }
 
+.speech-bubble {
+	background-color:gray;
+	min-width:20px;
+	max-width: 75%;
+	padding: 10px;
+	margin:10px;
+	display:inline-block;
+}
+
+.speech-row {
+	padding:10px;
+	margin:10px;
+	overflow-wrap: break-word;
+}
+
 .txt-marvel {
 	padding: 40px;
 	border-radius: 50%;
 	width: 40%;
 	height: 30%;
-
 	top: 30%;
 	right: 30%;
-
 	display: none;
 }
+.vertical-aligner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.self {
+	margin-left:auto;
+}
+
+.bot {
+	margin-right:auto;
+}
+#chatlog {
+	background-color:blue;
+	width:50%;
+	height:90%;
+	padding:10px;
+	overflow-y: scroll;
+
+}
+.message-box {
+	padding:10px;
+	width:75%;
+}
+
+#send {
+	padding:10px;
+	background-color:	#428bca;
+
+}
+

@@ -58,6 +58,10 @@ router.get('/submitQuery', function (req, res) {
   });
 });
 
+router.get('/testEndpoint', function (req, res) {
+  res.status(200).json({username: 'mya'});
+});
+
 
 router.get('/friends', function(req, res) {
   marvel.getAssociatedCharacters("Spider-Man", (data) => {
