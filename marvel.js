@@ -8,9 +8,9 @@ var hash = md5(ts + privateKey + publicKey);
 
 function getBio(character, callback)
 {
-	var requestStr = 'https://gateway.marvel.com/v1/public/characters?name=' + character + 
-					'&ts=' + ts + 
-					'&apikey=' + publicKey + 
+	var requestStr = 'https://gateway.marvel.com/v1/public/characters?name=' + character +
+					'&ts=' + ts +
+					'&apikey=' + publicKey +
 					'&hash=' + hash;
 
 	request(requestStr, {json:true}, function (error, response, body) {
@@ -18,38 +18,90 @@ function getBio(character, callback)
 	});
 }
 
-function getCharacters(offset, callback)
+function getCharacters(offset, cumulativeNames, callback)
 {
-	var promises = [];
-
-	var promise = new Promise((res, rej) =>
+	var promise = new Promise((resolve, reject) =>
 	{
-		var requestStr = 'https://gateway.marvel.com/v1/public/characters?limit=100' + 
-				'&ts=' + ts + 
-				'&apikey=' + publicKey + 
+		console.log("promise started " + offset);
+		var requestStr = 'https://gateway.marvel.com/v1/public/characters?offset=' + offset +
+				'&limit=100' +
+				'&ts=' + ts +
+				'&apikey=' + publicKey +
 				'&hash=' + hash;
 
 		request(requestStr, {json:true}, function (error, response, body) {
-			str = "";
+
 			count = body.data.count;
 			for (var i = 0; i < count; i++)
 			{
-				str += body.data.results[i].name + ", ";
+				cumulativeNames.push(
+					{"canonicalForm": body.data.results[i].name,
+					"list":[]}
+				);
 			}
 
-			resolve({continue: count == 100, names: str})
+			resolve({continue: count == 100, names: cumulativeNames})
 		});
-	}).then(function(obj)
-	{
-
 	});
 
-	promises.push(promise);
-
-	while (!finished) {	}
-
-	callback(body.data.results[0].description);
+	promise.then((data) =>{
+		if (data.continue)
+			getCharacters(offset+100, data.names, callback);
+		else
+			callback(data.names);
+	});
 }
 
+function getComics(offset, cumulativeComics, callback)
+{
+	var promise = new Promise((resolve, reject) =>
+	{
+		console.log("promise started " + offset);
+		var requestStr = 'https://gateway.marvel.com/v1/public/comics?offset=' + offset +
+				'&limit=100' +
+				'&ts=' + ts +
+				'&apikey=' + publicKey +
+				'&hash=' + hash;
+
+		request(requestStr, {json:true}, function (error, response, body) {
+
+			count = body.data.count;
+			for (var i = 0; i < count; i++)
+			{
+				cumulativeComics.push(
+					{"canonicalForm": body.data.results[i].title,
+					"list":[]}
+				);
+			}
+
+			resolve({continue: count == 100, comics: cumulativeComics})
+		});
+	});
+
+	promise.then((data) =>{
+		if (data.continue)
+			getComics(offset+100, data.comics, callback);
+		else
+			callback(data.comics);
+	});
+}
+
+function getComic(callback) {
+	var requestStr = 'https://gateway.marvel.com/v1/public/comics?offset=' + 0 +
+				'&limit=100' +
+				'&ts=' + ts +
+				'&apikey=' + publicKey +
+				'&hash=' + hash;
+
+		request(requestStr, {json:true}, function (error, response, body) {
+
+			callback(response);
+		});
+
+}
+
+
 exports.getBio = getBio;
-exports.getCharacters = 
+exports.getCharacters = getCharacters;
+exports.getComics = getComics;
+exports.getComic = getComic;

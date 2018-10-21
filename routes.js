@@ -9,6 +9,8 @@ var md5 = require('md5');
 const https = require('https');
 const request = require('request');
 
+const marvel = require('./marvel.js');
+
 // Example endpoint
 router.get('/create-test-project', function(req, res) {
   var project = new Project({
@@ -39,6 +41,42 @@ router.get('/', function(req, res) {
   // Project.find().then(projects => {
   //     res.render('index', {projects: projects})
   // });
+});
+
+router.get('/submitQuery', function (req, res) {
+  var query = req.body.query;
+  var query = "who is Spider-Man"
+  query = query.replace(' ', '+');
+  request('https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/8dbc2125-1d25-4183-92f6-0fda50b5c440?subscription-key=a8b41509fd9b4a7c9326106cf91203e3&timezoneOffset=-360&q='
+    + query, {json:true}, function(error, response, body) {
+    var topIntent = body.topScoringIntent;
+    var entity = body.entities[0];
+  });
+});
+
+router.get('/getCharacters', function(req, res) {
+  marvel.getCharacters(0,[], (str) => {
+    res.send(str);
+  });
+
+});
+
+router.get('/getComics', function(req, res) {
+  marvel.getComics(0,[], (str) => {
+    console.log(str);
+    res.send(str);
+  });
+
+});
+
+router.get('/getComic',function(req, res) {
+  marvel.getComic(function(response){
+    res.send(response.data);
+  });
+
+});
+
+router.get('/trainer', function(req, res) {
 
 });
 
@@ -92,7 +130,6 @@ router.post('/new', function(req, res) {
       });
     }
   });
-
 });
 
 // Part 3: View single project
