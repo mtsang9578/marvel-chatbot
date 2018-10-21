@@ -54,18 +54,18 @@ router.get('/submitQuery', function (req, res) {
 				}
 				else
 				{
-					entity = body.entities[0].entity;
+					entity = body.entities[0].resolution.values[0];
 				}
 			}
 			else
 			{
 				if (body.entities[0].type == "CharacterList")
 				{
-					entity = body.entities[0].entity;
+					entity = body.entities[0].resolution.values[0];
 				}
 				else
 				{
-					entity = body.entities[1].entity;
+					entity = body.entities[1].resolution.values[0];
 				}
 			}
 
@@ -73,10 +73,33 @@ router.get('/submitQuery', function (req, res) {
 			{
 				console.log("passing the entity: " + entity);
 
-				marvel.getCharacterByName(entity, function(result) {
+				marvel.getCharacterByName(entity, function(result) 
+				{
 					console.log("got charactersByName");
 					console.log(result);
 					res.send({type:"character", results:result});
+				});
+			}
+			else if (topIntent.intent == 'GetAppearance') {
+				console.log("Get Appearance");
+
+				marvel.getCharacterAppearance(entity, function(result) 
+				{
+					console.log("got character apperances");
+					console.log(result);
+					res.send({type:"image", results:result});
+				});
+			}
+			else if (topIntent.intent == 'GetFriends') {
+				marvel.getAssociatedCharacters(entity, function(result) {
+					var names = "";
+					for (var i = 0; i < result.length; i++) 
+					{
+						names += results[i] + ', ';
+					}
+					console.log("got getAssociatedCharacters");
+					console.log(result);
+					res.send({type:"character", results:names});
 				});
 			}
 		});

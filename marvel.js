@@ -103,7 +103,7 @@ function getSeriesByName(series, callback)
 }
 
 function getCharacterAppearance(character, callback)
-{	
+{
 	var requestStr = 'https://gateway.marvel.com/v1/public/characters?name=' + character +
 					'&ts=' + ts +
 					'&apikey=' + publicKey +
@@ -185,7 +185,7 @@ function getAssociatedCharacters(character, callback)
 exports.getBio = getBio;
 exports.getComic = getComic;
 exports.getAssociatedCharacters = getAssociatedCharacters;
-exports.getEventsByName = getEventsByName;
+exports.getEventByName = getEventByName;
 exports.getSeriesByName = getSeriesByName;
 exports.getCharacterByName = getCharacterByName;
 exports.getCharacterAppearance = getCharacterAppearance;
