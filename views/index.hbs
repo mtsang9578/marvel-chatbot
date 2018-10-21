@@ -9,11 +9,12 @@
 
 <div class="container chat-log" id="chatlog">
     <div class="row speech-row" >
-         <div class=" speech-bubble rounded lead bot">hi</div>
+         <div class=" speech-bubble rounded lead bot">
+         hi, ask me anything you want about the marvel universe
+         <div class="mt-3 font-italic"> Try: "tell me about spiderman"</div>
+     </div>
     </div>
-    <div class="row speech-row">
-         <div class="speech-bubble rounded self">jfkdljfalk;s</div>
-    </div>
+
 
 </div>
 <div class="container">
@@ -135,6 +136,17 @@
         return characterElement;
     }
 
+    else if (type == "characterList") {
+        console.log("friend results" + results);
+        characterArray = results.split(',');
+        console.log(characterArray);
+        var element = `<div class="font-weight-bold"> Here are some examples of characters you can search: </div>`;
+        for (var i = 0; i < characterArray.length; i++) {
+            element +=` <div >${characterArray[i]}</div>`
+        }
+        return element;
+    }
+
     else if (type == "friends") {
         console.log("friend results" + results);
          var element =
@@ -143,7 +155,7 @@
         return element;
     }
 
-    if (type == "links") {
+    else if (type == "links") {
         console.log("link results" + results);
          var element =
         ` <div > Try going to this link: <a href=${results}> ${results}> </a>
@@ -151,7 +163,7 @@
         return element;
     }
 
-    if (type == "event") {
+    else if (type == "event") {
          var element =
         `
         <div>
@@ -164,7 +176,7 @@
         return element;
     }
 
-    if (type == "series") {
+    else if (type == "series") {
         console.log("series");
          var element =
         `

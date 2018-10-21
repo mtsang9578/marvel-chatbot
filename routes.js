@@ -45,8 +45,15 @@ router.get('/submitQuery', function (req, res) {
 			var topIntent = body.topScoringIntent;
       var entity;
 
+      if (topIntent.intent == 'GetAllCharacters') {
+        console.log("get all characters");
+          marvel.getRandomCharacters(function(result) {
+              res.send({type:"characterList", results:result});
+          });
+          return;
+      }
 
-			if (body.entities.length == 0)
+			else if (body.entities.length == 0)
 			{
 				console.log("No entity detected");
 				entity == null;
@@ -161,11 +168,6 @@ router.get('/submitQuery', function (req, res) {
 	        });
 	    }
 
-      else if (topIntent.intent == 'GetAllCharacters') {
-          marvel.getSeriesByName(entity, function(result) {
-              res.send({type:"series", results:result});
-          });
-      }
 
 		});
 	});
