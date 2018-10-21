@@ -89,13 +89,13 @@ function getEventByName(event, callback)
 
 	request(requestStr, {json: true}, function(error, response, body)
 	{
-		
+		var 
 	});
 }
 
 function getSeriesByName(series, callback)
 {
-	
+
 }
 
 function getCharacterAppearance(character, callback)
@@ -181,7 +181,10 @@ function getAssociatedCharacters(character, callback)
 exports.getBio = getBio;
 exports.getComic = getComic;
 exports.getAssociatedCharacters = getAssociatedCharacters;
-
+exports.getEventsByName = getEventsByName;
+exports.getSeriesByName = getSeriesByName;
 exports.getCharacterByName = getCharacterByName;
+exports.getCharacterAppearance = getCharacterAppearance;
+
 exports.loadCharactersDictionary = loadCharactersDictionary;
 exports.loadEventsDictionary = loadEventsDictionary;
