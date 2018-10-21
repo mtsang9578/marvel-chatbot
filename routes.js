@@ -32,15 +32,20 @@ router.get('/submitQuery', function (req, res) {
 	var url_parts = url.parse(req.url, true);
 	var query = url_parts.query;
 	console.log(query);
+  var topIntent = "";
+  var entity =""
 
 	query = query.text.replace(' ', '+');
 	request('https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/8dbc2125-1d25-4183-92f6-0fda50b5c440?subscription-key=a8b41509fd9b4a7c9326106cf91203e3&timezoneOffset=-360&q='
-		+ query, {json:true}, function(error, response, body) 
+		+ query, {json:true}, function(error, response, body)
 	{
-		marvel.loadCharactersDictionary(function(dictionary) 
+    topIntent = body.topScoringIntent;
+    console.log(topIntent);
+		marvel.loadCharactersDictionary(function(dictionary)
 		{
-			var topIntent = body.topScoringIntent;
-			var entity;
+			topIntent = body.topScoringIntent;
+
+      entity;
 
 			if (body.entities.length == 0)
 			{
@@ -69,11 +74,11 @@ router.get('/submitQuery', function (req, res) {
 				}
 			}
 
-			if (topIntent.intent == 'GetBio') 
+			if (topIntent.intent == 'GetBio')
 			{
 				console.log("passing the entity: " + entity);
 
-				marvel.getCharacterByName(entity, function(result) 
+				marvel.getCharacterByName(entity, function(result)
 				{
 					console.log("got charactersByName");
 					console.log(result);
@@ -83,7 +88,7 @@ router.get('/submitQuery', function (req, res) {
 			else if (topIntent.intent == 'GetAppearance') {
 				console.log("Get Appearance");
 
-				marvel.getCharacterAppearance(entity, function(result) 
+				marvel.getCharacterAppearance(entity, function(result)
 				{
 					console.log("got character apperances");
 					console.log(result);
@@ -93,7 +98,7 @@ router.get('/submitQuery', function (req, res) {
 			else if (topIntent.intent == 'GetFriends') {
 				marvel.getAssociatedCharacters(entity, function(result) {
 					var names = "";
-					for (var i = 0; i < result.length; i++) 
+					for (var i = 0; i < result.length; i++)
 					{
 						names += results[i] + ', ';
 					}
@@ -103,6 +108,40 @@ router.get('/submitQuery', function (req, res) {
 				});
 			}
 		});
+
+    if (topIntent.intent == 'GetBio')
+      {
+        console.log("passing the entity: " + entity);
+
+        marvel.getCharacterByName(entity, function(result)
+        {
+          console.log("got charactersByName");
+          console.log(result);
+          res.send({type:"character", results:result});
+        });
+      }
+      else if (topIntent.intent == 'GetAppearance') {
+        console.log("Get Appearance");
+
+        marvel.getCharacterAppearance(entity, function(result)
+        {
+          console.log("got character apperances");
+          console.log(result);
+          res.send({type:"image", results:result});
+        });
+      }
+      else if (topIntent.intent == 'GetFriends') {
+        marvel.getAssociatedCharacters(entity, function(result) {
+          var names = "";
+          for (var i = 0; i < result.length; i++)
+          {
+            names += results[i] + ', ';
+          }
+          console.log("got getAssociatedCharacters");
+          console.log(result);
+          res.send({type:"character", results:names});
+        });
+      }
 	});
 });
 
