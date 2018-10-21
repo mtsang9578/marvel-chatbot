@@ -76,6 +76,44 @@ router.get('/submitQuery', function (req, res) {
           res.send({type:"character", results:result});
         });
       }
+
+      if(topIntent.intent == 'GetAppearance') {
+        console.log("Get Appearance");
+        var entity = '';
+        for (var i = 0; i < body.entities.length; i++) {
+          if(body.entities[i].type == "CharacterList") {
+            entity = body.entities[i].resolution.values[0];
+          }
+        }
+        marvel.getCharacterAppearance(entity, function(result) {
+          console.log("got character apperances");
+          console.log(result);
+          res.send({type:"image", results:result});
+        });
+      }
+
+      if(topIntent.intent == 'GetFriends') {
+        var entity = '';
+        for (var i = 0; i < body.entities.length; i++) {
+          if(body.entities[i].type == "CharacterList") {
+            entity = body.entities[i].resolution.values[0];
+          }
+        }
+        marvel.getAssociatedCharacters(entity, function(result) {
+          var names = "";
+          for (var i = 0; i < result.length; i++) {
+            names += results[i] + ', ';
+
+          }
+          console.log("got getAssociatedCharacters");
+          console.log(result);
+          res.send({type:"character", results:names});
+        });
+      }
+
+
+
+
   });
 
 

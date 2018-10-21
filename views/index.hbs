@@ -75,6 +75,12 @@
   function getElement(type, results) {
     console.log("get element");
     console.log("type ", type);
+    console.log(results);
+    if(type == "image") {
+        var element =
+        ` <div class="image-response"> <img src=${results[0]}>
+        </div>`
+    }
 
     if (type == "character") {
 
@@ -98,10 +104,6 @@
         return characterElement;
     }
 
-
-    if (type == "comic") {
-
-    }
 
   }
 
