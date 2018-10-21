@@ -64,10 +64,10 @@ function getRandomCharacters(callback)
 
 		for (var i = 0; i < 10; i++)
 		{
-			selected.push(Math.floor(Math.random() * words.length));
+			selected.push(words[Math.floor(Math.random() * words.length)]);
 		}
 
-		callback(selected.splice(0, 9).join(", ") + " or " + selected[9]);
+		callback(selected.slice(0, 9).join(", ") + " or " + selected[9]);
 	});
 }
 
@@ -83,9 +83,6 @@ function getBio(character, callback)
 	});
 }
 
-function getRandomCharacters() {
-
-}
 function getComicCover(comic, callback)
 {
 	var requestStr = 'https://gateway.marvel.com/v1/public/characters?title=' + comic +
