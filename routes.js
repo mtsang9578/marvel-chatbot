@@ -30,8 +30,6 @@ router.get('/submitQuery', function (req, res) {
 	var url_parts = url.parse(req.url, true);
 	var query = url_parts.query;
 	console.log(query);
-  var topIntent = "";
-  var entity =""
 
 	query = query.text.replace(' ', '+');
 	request('https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/8dbc2125-1d25-4183-92f6-0fda50b5c440?subscription-key=a8b41509fd9b4a7c9326106cf91203e3&timezoneOffset=-360&q='
