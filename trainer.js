@@ -224,7 +224,7 @@ function getAllComics(offset, cumulativeComics, callback)
     var promise = new Promise((resolve, reject) =>
     {
         console.log("promise started " + offset);
-        var requestStr = 'https://gateway.marvel.com/v1/public/comics?offset=' + offset +
+        var requestStr = 'https://gateway.marvel.com/v1/public/comics?offset=dateRange=2000-01-01%2C2018-01-02' + offset +
                 '&limit=100' +
                 '&ts=' + ts +
                 '&apikey=' + publicKey +
@@ -235,13 +235,15 @@ function getAllComics(offset, cumulativeComics, callback)
             count = body.data.count;
             for (var i = 0; i < count; i++)
             {
-                cumulativeComics.push(
-                    {"canonicalForm": body.data.results[i].title,
-                    "list":[]}
-                );
+                if (body.data.results[i].title.length < 50) {
+                    cumulativeComics.push(
+                        {"canonicalForm": body.data.results[i].title,
+                        "list":[]}
+                    );
+                }
             }
 
-            resolve({continue: count == 100, comics: cumulativeComics})
+            resolve({continue: (cumulativeComics.length < 500 && count==100), comics: cumulativeComics})
         });
     });
 
@@ -253,59 +255,66 @@ function getAllComics(offset, cumulativeComics, callback)
     });
 }
 
+function getComics(numEvents, callback)
+{
+    var requestStr = 'https://gateway.marvel.com/v1/public/comics?dateRange=2000-01-01%2C2018-01-02'+
+                    '&limit=' + numEvents +
+                    '&ts=' + ts +
+                    '&apikey=' + publicKey +
+                    '&hash=' + hash;
+
+    request(requestStr, {json:true}, function (error, response, body) {
+
+        callback(body.data.results);
+    });
+}
+
 function createUtterance(offset, cumulativeNames, callback)
 {
     jsonResults = []
-    phrases = [
-        {
-            "front": "who are ",
-            "back": "'s friends?"
-        },
-        {
-            "front": "who are ",
-            "back": "'s friends"
-        },
-        {
-            "front": "",
-            "back": "'s friends"
-        },
-        {
-            "front": "",
-            "back": " friend"
-        },
-        {
-            "front": "",
-            "back": " allies"
-        },
-        {
-            "front": "",
-            "back": " associates"
-        },
-        {
-            "front": "friends of",
-            "back": ""
-        }
-    ]
+    // phrases = [
+    //     {
+    //         "front": "what does ",
+    //         "back": "cover look like?"
+    //     },
+    //     {
+    //         "front": "",
+    //         "back": " cover art"
+    //     },
+    //     {
+    //         "front": "",
+    //         "back": " cover"
+    //     },
+    //     {
+    //         "front": "cover of ",
+    //         "back": ""
+    //     },
+    //     {
+    //         "front": "cover art of ",
+    //         "back": ""
+    //     }
+    // ]
 
-    getCharacters(50, function(results) {
+    getCharacters(10, function(results) {
         for (var i = 0; i < results.length; i++){
-            for (var j = 0; j < phrases.length; j++) {
-                var start = phrases[j].front.length;
+            // for (var j = 0; j < phrases.length; j++) {
+                var start = "what does ".length;
                 // console.log(results[i].title)
+                console.log(results[i].name);
                 jsonResults.push({
 
-                    "text": phrases[j].front + results[i].name + phrases[j].back,
-                    "intentName": "GetFriends",
+                    "text": "what does " + results[i].name + " look like",
+                    "intentName": "GetAppearance",
                     "entityLabels": [
                         {
                             "entityName": "CharacterList",
                             "startCharIndex": start,
-                            "endCharIndex": start + results[i].name.length
+                            "endCharIndex": start + results[i].name.length - 1
                         }
                     ]
 
                 });
-            }
+            // }
         }
          callback(jsonResults);
     });

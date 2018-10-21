@@ -56,4 +56,11 @@ router.get('/getComic',function(req, res) {
 
 });
 
+router.get('/createUtterance',function(req, res) {
+  trainer.createUtterance(function(response){
+    res.send(response.data);
+  });
+
+});
+
 module.exports = router;

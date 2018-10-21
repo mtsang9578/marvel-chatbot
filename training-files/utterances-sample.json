@@ -1,23 +1,23 @@
 [
   {
-    "text": "friends of Avalanche",
-    "intentName": "GetFriends",
-    "entityLabels": [
-      {
-        "entityName": "CharacterList",
-        "startCharIndex": 11,
-        "endCharIndex": 19
-      }
-    ]
-  },
-  {
-    "text": "who are Avalanche's friends",
+    "text": "pals of Avalanche",
     "intentName": "GetFriends",
     "entityLabels": [
       {
         "entityName": "CharacterList",
         "startCharIndex": 8,
         "endCharIndex": 16
+      }
+    ]
+  },
+  {
+    "text": "Avalanche pals",
+    "intentName": "GetFriends",
+    "entityLabels": [
+      {
+        "entityName": "CharacterList",
+        "startCharIndex": 0,
+        "endCharIndex": 8
       }
     ]
   }
