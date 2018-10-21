@@ -96,10 +96,16 @@ function getEventByName(event, callback)
 
 function getSeriesByName(series, callback)
 {
-	var requestStr = 'https://gateway.marvel.com/v1/public/events?name=' + event +
+	var requestStr = 'https://gateway.marvel.com/v1/public/series?title=' + series +
 					'&ts=' + ts +
 					'&apikey=' + publicKey +
 					'&hash=' + hash;
+
+	request(requestStr, {json: true}, function(error, response, body)
+	{
+		var desc = body.data.results[0].description || "None";
+		callback(desc);
+	});
 }
 
 function getCharacterAppearance(character, callback)
