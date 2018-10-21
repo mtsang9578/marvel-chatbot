@@ -48,19 +48,8 @@ router.get('/addAllCharacters', function(req,res) {
 
 
 router.get('/addAllEvents', function(req,res) {
-  collections.getAllEvents(0, [], function(results) {
-    for (var i = 0; i < results.length; i++) {
-       var event = new Event(results[i]);
-       event.save(function(err) {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log("event saved");
-        }
-      });
-    }
-
-    res.send("Success: created events.")
+  collections.getAllEvents((msg) => {
+    res.send(msg);
   });
 });
 
