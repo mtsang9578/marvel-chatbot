@@ -48,15 +48,25 @@
         $(".message-box").val('');
         $("#chatlog").scrollTop($("#chatlog")[0].scrollHeight);
 
-        $.get('/submitQuery', function(response) {
+        $.ajax({
+          url: "/submitQuery",
+          type: "get", //send it through get method
+          data: {
+            text: text,
+          },
+
+          success: function(response) {
+            //Do Something
             console.log(response.results.description);
             var element = getElement(response.type, response.results);
-
-          $('#chatlog').append(`
+             $('#chatlog').append(`
             <div class="row speech-row">
              <div class="speech-bubble rounded bot">${element}</div>
-        </div>`);
-        //      $("#chatlog").scrollTop($("#chatlog")[0].scrollHeight);
+             </div>`);
+          },
+          error: function(xhr) {
+            //Do Something to handle error
+          }
         });
 
   }
