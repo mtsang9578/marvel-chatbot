@@ -36,8 +36,10 @@ router.get('/', function(req, res) {
 
 router.get("/test", function(req, res)
 {
-  marvel.test((data) => {
-    res.send(data);
+  marvel.loadEventsDictionary().then(function(dictionary)
+  {
+    var suggest = dictionary.getSuggestions("spider - man", 5, 5);
+    res.send(suggest);
   });
 });
 
