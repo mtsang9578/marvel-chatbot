@@ -76,9 +76,9 @@ router.get('/submitQuery', function (req, res) {
           res.send({type:"character", results:result});
         });
       }
-
-
   });
+
+
 });
 
 module.exports = router;

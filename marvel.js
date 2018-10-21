@@ -1,6 +1,8 @@
 var md5 = require('md5');
 var request = require('request');
+
 var SpellChecker = require('simple-spellchecker');
+
 var Character = require('./models').Character;
 var Event = require('./models').Event;
 
@@ -103,6 +105,65 @@ function getComic(callback) {
 
 }
 
+function getAssociatedCharacters2(character, callback)
+{
+	var requestStr = 'https://gateway.marvel.com/v1/public/characters?name=' + character +
+				'&ts=' + ts +
+				'&apikey=' + publicKey +
+				'&hash=' + hash;
+
+	request(requestStr, {json: true}, function(error, response, body)
+	{
+		var allEvents = body.data.results[0].events.collectionURI + '?limit=100' +
+				'&ts=' + ts +
+				'&apikey=' + publicKey +
+				'&hash=' + hash;
+
+		request(allEvents, {json: true}, function(error, response, body)
+		{
+			promises = [];
+			for (var i = 0; i < body.data.count; i++)
+			{
+				promises.push(new Promise((resolve, reject) => {
+					var event = Event.findOne({ "id": body.data.results[i].id }, "characters", (err, result) =>
+					{
+						resolve(result.characters);
+					});
+				}));
+			}
+
+			var masterCharacters = {};
+
+			Promise.all(promises).then((values) => {
+				for (var i = 0; i < values.length; i++)
+				{
+					value = values[i];
+					for (var j = 0; j < value.length; j++)
+					{
+						charName = value[j];
+
+						if (charName in masterCharacters)
+							masterCharacters[charName] += 1;
+						else
+							masterCharacters[charName] = 1;
+					}
+				}
+
+				var charactersByAppearance = Object.keys(masterCharacters).sort((a,b) => masterCharacters[b] - masterCharacters[a]);
+
+				callback(charactersByAppearance);
+			});
+		});
+	});
+
+	/*Person.findOne({ 'name': character }, 'name occupation', function (err, person) {
+		if (err) return handleError(err);
+		// Prints "Space Ghost is a talk show host".
+		console.log('%s %s is a %s.', person.name.first, person.name.last,
+		person.occupation);
+	});*/
+}
+
 function getAssociatedCharacters(character, callback)
 {
 	var requestStr = 'https://gateway.marvel.com/v1/public/characters?name=' + character +
@@ -175,8 +236,12 @@ function getAssociatedCharacters(character, callback)
 
 exports.getBio = getBio;
 exports.getComic = getComic;
-exports.getAssociatedCharacters = getAssociatedCharacters;
+
 exports.getCharacterByName = getCharacterByName;
 exports.loadCharactersDictionary = loadCharactersDictionary;
 exports.loadEventsDictionary = loadEventsDictionary;
+
+
+exports.getAssociatedCharacters = getAssociatedCharacters2;
+
 

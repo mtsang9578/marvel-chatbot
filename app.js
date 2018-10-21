@@ -29,6 +29,7 @@ mongoose.connection.on('error', function() {
   process.exit(1);
 });
 
+console.log(process.env.MONGODB_URI);
 mongoose.connect(process.env.MONGODB_URI);
 
 // Handlabars setup
@@ -47,7 +48,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // All of our routes are in routes.js
 var routes = require('./routes');
 var trainingRoutes = require('./training-routes');
-app.use('/training',trainingRoutes);
+var databaseRoutes = require('./databaseRoutes')
+app.use('/database', databaseRoutes);
+app.use('/training', trainingRoutes);
 app.use('/', routes);
 
 console.log('Express started. Listening on port', process.env.PORT || 3000);
