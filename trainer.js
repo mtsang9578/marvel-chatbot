@@ -112,6 +112,64 @@ function trainGetEvent(callback) {
     });
 }
 
+function trainMoreInfo(callback) {
+    jsonResults = []
+    phrases = [
+        {
+            "front": "wikipedia ",
+            "back": ""
+        },
+        {
+            "front": "",
+            "back": "wiki"
+        },
+        {
+            "front": "wikipedia ",
+            "back": ""
+        },
+        {
+            "front": "wiki ",
+            "back": ""
+        },
+        {
+            "front": "tell me more information about ",
+            "back": ""
+        },
+        {
+            "front": "",
+            "back": " more info"
+        },
+        {
+            "front": "more info url ",
+            "back": ""
+        }
+    ]
+
+    getCharacters(100, function(results) {
+        for (var i = 0; i < results.length; i++){
+            for (var j = 0; j < phrases.length; j++) {
+                var start = phrases[j].front.length;
+                // console.log(results[i].title)
+                jsonResults.push({
+                    "text": phrases[j].front + results[i].name + phrases[j].back,
+                    "intent": "GetMoreInfo",
+                    "entities":
+                    [
+                        {
+                            "entity": "CharacterList",
+                            "startPos": start,
+                            "endPos": start + results[i].name.length
+                        }
+                    ]
+
+                });
+            }
+        }
+         callback(jsonResults);
+    });
+}
+
+
 function trainFriends(callback) {
     jsonResults = []
     phrases = [
@@ -169,7 +227,6 @@ function trainFriends(callback) {
     });
 }
 
-//todo: delete this duplicate method
 function getCharacters(numEvents, callback)
 {
     var requestStr = 'https://gateway.marvel.com/v1/public/characters?'+
@@ -253,6 +310,7 @@ function getAllComics(offset, cumulativeComics, callback)
     });
 }
 
+exports.trainMoreInfo = trainMoreInfo;
 exports.trainFriends = trainFriends;
 exports.trainGetEvent = trainGetEvent;
 exports.getAllSeries = getAllSeries;

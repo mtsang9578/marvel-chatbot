@@ -44,6 +44,12 @@ router.get('/trainFriends', function(req, res) {
   });
 });
 
+router.get('/trainMoreInfo', function(req, res) {
+  trainer.trainMoreInfo(function(results) {
+    res.send(results);
+  });
+});
+
 router.get('/getComic',function(req, res) {
   marvel.getComic(function(response){
     res.send(response.data);
