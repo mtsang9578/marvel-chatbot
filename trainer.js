@@ -53,19 +53,54 @@ function getAllEvents(offset, results, callback) {
     });
 }
 
+function getAllSeries(offset, results, callback) {
+    var promise = new Promise((resolve, reject) =>
+    {
+        console.log("promise started " + offset);
+        var requestStr = 'https://gateway.marvel.com/v1/public/series?offset=' + offset +
+                '&limit=100' +
+                '&ts=' + ts +
+                '&apikey=' + publicKey +
+                '&hash=' + hash;
+
+        request(requestStr, {json:true}, function (error, response, body) {
+
+            count = body.data.count;
+            for (var i = 0; i < count; i++)
+            {
+                if (body.data.results[i].title.length < 50) {
+                    results.push(
+                        {"canonicalForm": body.data.results[i].title,
+                        "list":[]}
+                    );
+                }
+            }
+
+            resolve({continue: count == 100, results: results})
+        });
+    });
+
+    promise.then((data) =>{
+        if (data.continue)
+            getAllEvents(offset+100, data.results, callback);
+        else
+            callback(data.results);
+    });
+}
+
 function trainGetEvent(callback) {
     jsonResults = []
-    getEvents(30, function(results) {
+    getEvents(50, function(results) {
         for (var i = 0; i < results.length; i++){
             var start = "what happens in ".length;
-            console.log(results[i].title)
+            // console.log(results[i].title)
             jsonResults.push({
                 "text": "what happens in " + results[i].title + " event",
                 "intent": "GetEvent",
                 "entities":
                 [
                     {
-                        "entity": "Event",
+                        "entity": "EventList",
                         "startPos": start,
                         "endPos": start + results[i].title.length
                     }
@@ -148,6 +183,7 @@ function getAllComics(offset, cumulativeComics, callback)
 
 
 exports.trainGetEvent = trainGetEvent;
+exports.getAllSeries = getAllSeries;
 exports.getAllEvents = getAllEvents;
 exports.getAllCharacters = getAllCharacters;
 exports.getAllComics = getAllComics;

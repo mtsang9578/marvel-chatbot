@@ -17,6 +17,12 @@ router.get('/getAllEvents', function(req,res) {
   });
 });
 
+router.get('/getAllSeries', function(req,res) {
+  trainer.getAllSeries(0, [], function(results) {
+    res.send(results);
+  });
+});
+
 
 router.get('/getAllComics', function(req, res) {
   trainer.getAllComics(0,[], (str) => {
