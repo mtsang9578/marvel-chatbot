@@ -4,6 +4,8 @@
 var express = require('express');
 var router = express.Router();
 var Character = require('./models').Character;
+var Event = require('./models').Event;
+
 var strftime = require('strftime');
 var md5 = require('md5');
 const https = require('https');
@@ -47,17 +49,10 @@ router.get('/addAllCharacters', function(req,res) {
 
 
 router.get('/addAllEvents', function(req,res) {
-  collections.getAllEvents(0, [], function(results) {
-    for (var i = 0; i < results.length; i++) {
-       var event = new Event(results[i]);
-       Event.save(function(err) {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log("event saved");
-        }
-      });
-    }
+
+  collections.getAllEvents((msg) => {
+    res.send(msg);
+
   });
 });
 
@@ -71,13 +66,11 @@ router.get('/create-test-character', function(req, res) {
     if (err) {
       res.status(500).json(err);
     } else {
-      res.send('Success: created a characterc object in MongoDb');
+
+      res.send('Success: created a character object in MongoDb');
+
     }
   });
-});
-
-router.get('/addAllCharacters', function(req,res) {
-
 });
 
 
