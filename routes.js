@@ -107,7 +107,6 @@ router.get('/submitQuery', function (req, res) {
 
       else if (topIntent.intent == 'GetMoreInfo') {
         marvel.getCharacterByName(entity, function(result) {
-
           console.log("got more info");
           console.log(result.urls[0].url);
           res.send({type:"links", results:result.urls[0].url});
@@ -123,6 +122,17 @@ router.get('/submitQuery', function (req, res) {
           res.send({type:"links", results:result.urls[0].url});
         });
       }
+
+
+      else if (topIntent.intent == 'GetEvent') {
+        marvel.getEventByName(entity, function(result) {
+          console.log("getting event");
+          console.log(result);
+          res.send({type:"event", results:result});
+        });
+      }
+
+
 
 		});
 	});

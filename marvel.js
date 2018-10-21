@@ -89,7 +89,7 @@ function getEventByName(event, callback)
 
 	request(requestStr, {json: true}, function(error, response, body)
 	{
-		var desc = body.data.results[0].description;
+		var desc = body.data.results[0];
 		callback(desc);
 	});
 }
