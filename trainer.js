@@ -25,6 +25,7 @@ function trainGetEvent(callback) {
     getEvents(10, function(results) {
         for (var i = 0; i < results.length; i++){
             var start = "what happens in ".length;
+            console.log(results[i].title)
             jsonResults.push({
                 "text": "what happens in " + results[i].title + " event",
                 "intent": "GetEvent",
