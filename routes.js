@@ -80,6 +80,19 @@ router.get('/trainer', function(req, res) {
 
 });
 
+router.get('/friends', function(req, res) {
+  marvel.getAssociatedCharacters("Spider-Man", (data) => {
+    res.send(data);
+  });
+});
+
+
+
+
+// #################################################
+// ##################### JUNK ######################
+// #################################################
+
 
 // Part 2: Create project
 // Implement the GET /new endpoint
