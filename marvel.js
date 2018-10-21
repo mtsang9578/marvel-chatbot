@@ -18,6 +18,27 @@ function getBio(character, callback)
 	});
 }
 
+function getCharacterByName(character, callback) {
+	var requestStr = 'https://gateway.marvel.com/v1/public/characters?name=' + character +
+					'&ts=' + ts +
+					'&apikey=' + publicKey +
+					'&hash=' + hash;
+
+	request(requestStr, {json:true}, function (error, response, body) {
+		callback(body.data.results[0]);
+	});
+
+
+}
+
+
+function getEventByName(event, callback){
+
+}
+
+function getSeriesByName(series, callback){
+
+}
 
 function getComic(callback) {
 	var requestStr = 'https://gateway.marvel.com/v1/public/comics?offset=' + 0 +
@@ -104,8 +125,8 @@ function getAssociatedCharacters(character, callback)
 
 
 exports.getBio = getBio;
-
 exports.getComic = getComic;
-
 exports.getAssociatedCharacters = getAssociatedCharacters;
+exports.getCharacterByName = getCharacterByName;
+
 
