@@ -95,23 +95,15 @@
         }
 
         var characterElement =
-<<<<<<< HEAD
         `<image class="image-response" src= ${results.thumbnail.path + '.' + results.thumbnail.extension}
         <div>
             <div class="font-weight-bold"><bold>${results.name}</bold></div>
            <div class="bio"> ${results.description}<div>
-=======
-        ` 
-        <div>
-          <div class="font-weight-bold"><bold>${results.name}</bold></div>
-          <div class="bio"> ${results.description}<div>
->>>>>>> 61ff1944d658a1f12529f1dd2caed13bbf8be8a9
         </div>
         <div class="mt-3">
-          <div class="font-weight-bold"><bold>Comic Appearances</bold></div>
-          <div>${comicNames}</div>
-        </div>
-        `
+            <div class="font-weight-bold"><bold>Comic Appearances</bold></div>
+            <div>${comicNames}</div>
+        </div>`
         console.log(characterElement);
         return characterElement;
     }
@@ -119,30 +111,21 @@
     else if (type == "friends") {
         console.log("friend results" + results);
          var element =
-        `<div> ${results}
+        ` <div > ${results}>
         </div>`
         return element;
     }
 
-    else if (type == "links") {
+    if (type == "links") {
         console.log("link results" + results);
-        var element =
-        ` 
-        <div > 
-          Try going to this link: <a href=${results}> ${results}> </a>
-        </div>
-        `
+         var element =
+        ` <div > Try going to this link: <a href=${results}> ${results}> </a>
+        </div>`
         return element;
     }
 
-<<<<<<< HEAD
     if (type == "event") {
          var element =
-=======
-    else if (type == "event") {
-        var element =
-
->>>>>>> 61ff1944d658a1f12529f1dd2caed13bbf8be8a9
         `
         <div>
         <image class="image-response" src=${results.thumbnail.path + '.' + results.thumbnail.extension}>
@@ -175,27 +158,6 @@
         `
         return element;
     }
-    else if (type == "series") {
-        var element =
-
-        `
-        <div>
-            <div>${results}</div>
-        </div>
-        `
-        return element;
-    }
-
-    else if (type == "unknown") {
-      var element =
-
-        `
-        <div>
-            ${results}
-        </div>
-        `
-        return element;
-    }
 
 
   }
@@ -203,8 +165,6 @@
   function getCharacterBio(response){
     return response.description;
   }
-
-
 
 
     $('.message-box').keypress(function(event) {
