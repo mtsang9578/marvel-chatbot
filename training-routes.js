@@ -2,6 +2,11 @@ var express = require('express');
 var router = express.Router();
 var trainer = require('./trainer');
 
+router.get('/createUtterance', function(req, res) {
+    trainer.createUtterance(0, [], function(results) {
+      res.send(results);
+    });
+});
 
 router.get('/getAllCharacters', function(req, res) {
   trainer.getAllCharacters(0,[], (str) => {

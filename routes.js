@@ -11,6 +11,7 @@ const request = require('request');
 
 const marvel = require('./marvel.js');
 const trainer = require('./trainer.js');
+const utterances = require('./add-utterances.js');
 
 var trainingRoutes = require('./training-routes');
 
@@ -139,6 +140,7 @@ router.post('/project/:projectid', function(req, res) {
     }
   });
 });
+
 
 // Part 6: Edit project
 // Create the GET /project/:projectid/edit endpoint
